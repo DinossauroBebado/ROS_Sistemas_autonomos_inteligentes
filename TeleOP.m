@@ -31,7 +31,7 @@ pub = rospublisher("/turtle1/cmd_vel",'geometry_msgs/Twist');
 
 while true 
     
-    [key,DT] = getkeywait(1)
+    [key,DT] = getkeywait(1);
     
     if key == quit 
         break
@@ -56,9 +56,8 @@ while true
            msg.Angular.Z = 0;
            msg.Linear.X = 0;
       end
-
-
-
+      
+       
 send(pub,msg);
 end
 
