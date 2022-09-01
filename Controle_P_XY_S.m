@@ -1,5 +1,4 @@
 
-
 %cria o servico
 turtle_reset = rossvcclient('/reset');
  
@@ -17,20 +16,20 @@ sub_pose = rossubscriber("/turtle1/pose");
 pose_data = receive(sub_pose,10); 
 
 target_x = 0;
-target_y = 4; 
+target_y = 9; 
 
-kp_linear = 5;
-kp_angular = pi;
+kp_linear = 1;
+kp_angular = 4;
 
 
 
 error_linear =  hypot((target_x - pose_data.X),(target_y - pose_data.Y));
-error_angular =  99
+error_angular =  99;
 %atan(target_y-pose_data.Y/target_x-pose_data.X);
 
 
 
-while(abs(error_angular) > pi/1000)
+while(abs(error_angular) > pi/1000 && abs(error_linear) > 1)
     
     pose_data = receive(sub_pose,10); 
     
@@ -40,7 +39,15 @@ while(abs(error_angular) > pi/1000)
         
     disp(desired_angle);
    
-     
+    
+    error_linear =  hypot((target_x - pose_data.X),(target_y - pose_data.Y));
+        
+   
+    vel_linear = error_linear*kp_linear;
+   
+    
+    msg_twist.Linear.X = vel_linear;
+    
     
     vel_angular = error_angular*kp_angular;
    
@@ -55,28 +62,6 @@ while(abs(error_angular) > pi/1000)
     send(pub_twist,msg_twist);
 end
 
-msg_twist.Linear.X =0;
-msg_twist.Angular.Z = 0;
-send(pub_twist,msg_twist);
-
-while(abs(error_linear) > 1)
-    
-    pose_data = receive(sub_pose,10); 
-    
-    error_linear =  hypot((target_x - pose_data.X),(target_y - pose_data.Y));
-        
-   
-    vel_linear = error_linear*kp_linear;
-   
-    
-    msg_twist.Linear.X = vel_linear;
-    
-    
-    %disp(vel_linear);
-    %disp(error_linear);
-
-    send(pub_twist,msg_twist);
-end
 
 msg_twist.Linear.X =0;
 msg_twist.Angular.Z = 0;
