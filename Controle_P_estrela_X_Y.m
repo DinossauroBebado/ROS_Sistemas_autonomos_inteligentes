@@ -19,7 +19,7 @@ pose_data = receive(sub_pose,10);
 
 targets = [[3,3];[5,8];[7,3];[2,6];[8,6];[3,3]] ;
 
-kp_linear = 1;
+kp_linear = 10;
 kp_angular = 5;
 
 for t = 1:6

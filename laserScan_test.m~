@@ -1,0 +1,8 @@
+scanData = rosmessage('sensor_msgs/LaserEcho') ;
+
+subLaser = rossubscriber("scab"); 
+
+scanData = receive(subLaser,10) ;
+figure 
+
+plot(scanData,"Marke

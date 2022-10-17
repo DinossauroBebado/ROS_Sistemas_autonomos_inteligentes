@@ -1,6 +1,6 @@
 
-
-rosinit
+% 
+% rowsinit
 %while true
 
 %[CH,DT] = getkeywait(1) ;
@@ -27,9 +27,20 @@ msg = rosmessage('geometry_msgs/Twist') ;
 
 %cria o publisher 
 
-pub = rospublisher("/turtle1/cmd_vel",'geometry_msgs/Twist');
+% pub = rospublisher("/turtle1/cmd_vel",'geometry_msgs/Twist');
 
+pub = rospublisher("/cmd_vel",'geometry_msgs/Twist');
+ 
+odom = rosmessage('nav_msgs/Odometry');
+sub_odom = rossubscriber("/odom");
 while true 
+        
+    odom_data = receive(sub_odom,10); 
+    X = (odom_data.Pose.Pose.Position.X);
+    Y = (odom_data.Pose.Pose.Position.Y);
+    disp("---------");
+    disp(X);
+    disp(Y);
     
     [key,DT] = getkeywait(1);
     
@@ -41,7 +52,7 @@ while true
         msg.Linear.X = 3;
     end
     
-q     if key == backward
+    if key == backward
         msg.Linear.X = -3;
      end
     
