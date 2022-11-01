@@ -1,0 +1,55 @@
+[System]
+Name='Fuzzy_Avoid_Obstacule_simple'
+Type='mamdani'
+Version=2.0
+NumInputs=3
+NumOutputs=2
+NumRules=7
+AndMethod='min'
+OrMethod='max'
+ImpMethod='min'
+AggMethod='max'
+DefuzzMethod='centroid'
+
+[Input1]
+Name='SensorRangeLeft'
+Range=[0 5]
+NumMFs=1
+MF1='DistanceLeft':'trimf',[-5 0 5]
+
+[Input2]
+Name='SensorRangeCenter'
+Range=[0 5]
+NumMFs=1
+MF1='DistanceCenter':'trimf',[-5 0 5]
+
+[Input3]
+Name='SensorRangeRight'
+Range=[0 5]
+NumMFs=1
+MF1='DistanceRight':'trimf',[-5 0 5]
+
+[Output1]
+Name='Linear'
+Range=[-2 2]
+NumMFs=2
+MF1='Backward':'trimf',[-4 -2 0]
+MF2='Straight':'trimf',[0 2 4]
+
+[Output2]
+Name='Angular'
+Range=[-6.28318530717959 6.28318530717959]
+NumMFs=4
+MF1='TurnLeftStrong':'trimf',[-12.57 -6.283 0]
+MF2='TurnLeftLight':'trimf',[-6.284 -3.142 0]
+MF3='TurnRightStrong':'trimf',[0 3.142 6.284]
+MF4='TurnRightLight':'trimf',[0 6.284 12.57]
+
+[Rules]
+1 1 1, 1 0 (1) : 1
+-1 -1 -1, 2 0 (1) : 1
+1 1 -1, 0 3 (1) : 1
+1 -1 -1, 0 4 (1) : 1
+-1 1 1, 0 1 (1) : 1
+-1 -1 1, 0 2 (1) : 1
+-1 1 -1, 2 4 (1) : 1
